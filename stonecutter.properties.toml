@@ -1,0 +1,52 @@
+# See https://stonecutter.kikugie.dev/wiki/config/properties#centralized-properties
+mod.id = "cmdtree"
+mod.name = "CmdTree"
+mod.group = "org.alexweber.cmdtree"
+mod.version = "1.0.0"
+
+deps.fabric_loader = "0.19.3"
+loomx.loom_version = "1.17-SNAPSHOT"
+
+["1.20.1"]
+# Mod compatibility range in fabric.mod.json
+mod.mc_compat = "1.20.1"
+# List of releases to be marked compatible on Modrinth/Curseforge
+mod.mc_releases = ["1.20.1"]
+
+deps.fabric_api = "0.92.11+1.20.1"
+
+["1.20.4"]
+mod.mc_compat = ">=1.20.3 <=1.20.4"
+mod.mc_releases = ["1.20.3", "1.20.4"]
+
+deps.fabric_api = "0.97.3+1.20.4"
+
+["1.21.1"]
+mod.mc_compat = ">=1.21 <=1.21.1"
+mod.mc_releases = ["1.21", "1.21.1"]
+
+deps.fabric_api = "0.116.15+1.21.1"
+
+["1.21.4"]
+mod.mc_compat = "1.21.4"
+mod.mc_releases = ["1.21.4"]
+
+deps.fabric_api = "0.119.4+1.21.4"
+
+["1.21.8"]
+mod.mc_compat = "1.21.8"
+mod.mc_releases = ["1.21.8"]
+
+deps.fabric_api = "0.136.1+1.21.8"
+
+["1.21.11"]
+mod.mc_compat = "1.21.11"
+mod.mc_releases = ["1.21.11"]
+
+deps.fabric_api = "0.141.6+1.21.11"
+
+["26.2.x"]
+mod.mc_compat = "~26.2"
+mod.mc_releases = ["26.2"]
+
+deps.fabric_api = "0.158.0+26.2"
