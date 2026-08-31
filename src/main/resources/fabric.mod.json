@@ -5,7 +5,7 @@
   "name": "${name}",
   "description": "Dumps the client-side Brigadier command tree (only the commands you're actually allowed to run) to a JSON file, in singleplayer or on any multiplayer server, via /cmdtree getcommands.",
   "authors": [
-    "Alex Weber"
+    "AlexWeber64"
   ],
   "license": "MIT",
   "icon": "assets/cmdtree/icon.png",

@@ -1,8 +1,8 @@
 # CmdTree
 
-A small Fabric client mod that dumps the command tree you can actually see — the
+A small Fabric client mod that dumps the command tree you can actually see (the
 Brigadier command tree the server sent your client, already filtered down to whatever
-you're permitted to run — to a JSON file on disk. Works identically in singleplayer
+you're permitted to run) to a JSON file on disk. Works identically in singleplayer
 and on any remote server, since it never talks to a `MinecraftServer` instance.
 
 ## Usage
@@ -36,7 +36,7 @@ error in chat and logs the full stack trace to the game log.
 ## Supported Minecraft versions
 
 All seven versions below were actually test-compiled against the real Fabric Loader,
-Fabric API, and Minecraft dependencies for that version (not just declared) — see
+Fabric API, and Minecraft dependencies for that version (not just declared) - see
 [Notes on version support](#notes-on-version-support) below for how.
 
 | Minecraft | Fabric Loader | Fabric API      | Mappings                  |
@@ -49,18 +49,18 @@ Fabric API, and Minecraft dependencies for that version (not just declared) — 
 | 1.21.11   | 0.19.3         | 0.141.6+1.21.11  | Mojang official mappings  |
 | 26.2      | 0.19.3         | 0.158.0+26.2     | none needed (unobfuscated) |
 
-No candidate versions were dropped — every version originally targeted (spanning
+No candidate versions were dropped - every version originally targeted (spanning
 1.20.x, several 1.21.x points, and the current 26.x line) built successfully.
 
 ### Notes on version support
 
 - This project builds against **Mojang's official mappings** for every version, not
-  Yarn — including versions before 1.21.11, which are technically obfuscated. Loom can
+  Yarn - including versions before 1.21.11, which are technically obfuscated. Loom can
   remap an obfuscated jar using Mojang's own official mappings just as well as Yarn's,
   and doing so meant the mod code below didn't need any version-specific handling for
   the vast majority of the Minecraft API surface it touches (`Minecraft`,
   `ClientPacketListener`, `ArgumentUtils`, `Component`, `ServerData`, `IntegratedServer`,
-  `WorldData` — all identical names and signatures from 1.20.1 straight through 26.2).
+  `WorldData` - all identical names and signatures from 1.20.1 straight through 26.2).
 - **Minecraft 26.1 was the first release Mojang shipped unobfuscated.** Fabric
   discontinued Yarn and Intermediary mappings from 26.1 onward, so any project still
   targeting Yarn mappings cannot support 26.x at all. Building against official mappings
@@ -71,10 +71,10 @@ No candidate versions were dropped — every version originally targeted (spanni
   `ClientCommands` starting with the Fabric API build for Minecraft 26.1 (part of a
   broader Fabric API renaming pass to match Mojang's official terminology now that it's
   public). The two versions of that class have identical static method signatures, so a
-  single Stonecutter-swapped `import static` line is the entire fix — see
+  single Stonecutter-swapped `import static` line is the entire fix - see
   `GetCommandsCommand.java`.
 - 1.21.8 only ever had a single Yarn mappings build published upstream (`+build.1`)
-  before Fabric moved past it — irrelevant here since we don't depend on Yarn, but
+  before Fabric moved past it - irrelevant here since we don't depend on Yarn, but
   worth knowing if you go looking for Yarn mappings for that version.
 
 ## Building from source
@@ -97,4 +97,4 @@ IDE, switch the active version first:
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT - see [LICENSE](LICENSE).
