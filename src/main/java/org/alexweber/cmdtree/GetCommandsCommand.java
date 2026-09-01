@@ -3,6 +3,11 @@ package org.alexweber.cmdtree;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.tree.ArgumentCommandNode;
+import com.mojang.brigadier.tree.CommandNode;
+import com.mojang.brigadier.tree.RootCommandNode;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.loader.api.FabricLoader;
@@ -68,7 +73,7 @@ public final class GetCommandsCommand {
 
         try {
             var dispatcher = connection.getCommands();
-            JsonElement tree = ArgumentUtils.serializeNodeToJson(dispatcher, dispatcher.getRoot());
+            JsonElement tree = serializeNode(dispatcher, dispatcher.getRoot());
             Path file = writeTree(label, tree);
             source.sendFeedback(Component.literal("[CmdTree] Wrote command tree to " + file));
             return 1;
@@ -77,6 +82,48 @@ public final class GetCommandsCommand {
             source.sendError(Component.literal("[CmdTree] Failed to write command tree: " + e.getMessage()));
             return 0;
         }
+    }
+
+    /**
+     * Some mods register client-only Brigadier argument types (e.g. dev.xpple's
+     * clientarguments library) that vanilla's {@link ArgumentUtils} never learns about,
+     * since they're never sent over the network. Serializing those crashes vanilla's
+     * serializer for the *entire* tree, so fall back to a reduced description of just
+     * the offending node instead of losing everything else the player can see.
+     */
+    private static <S> JsonElement serializeNode(CommandDispatcher<S> dispatcher, CommandNode<S> node) {
+        try {
+            return ArgumentUtils.serializeNodeToJson(dispatcher, node);
+        } catch (RuntimeException e) {
+            return serializeNodeFallback(dispatcher, node);
+        }
+    }
+
+    private static <S> JsonObject serializeNodeFallback(CommandDispatcher<S> dispatcher, CommandNode<S> node) {
+        JsonObject json = new JsonObject();
+        if (node instanceof ArgumentCommandNode<?, ?> argument) {
+            json.addProperty("type", "argument");
+            json.addProperty("name", argument.getName());
+            json.addProperty("parser", "unknown:" + argument.getType().getClass().getName());
+        } else if (node instanceof RootCommandNode) {
+            json.addProperty("type", "root");
+        } else {
+            json.addProperty("type", "literal");
+        }
+
+        if (node.getCommand() != null) {
+            json.addProperty("executable", true);
+        }
+
+        if (!node.getChildren().isEmpty()) {
+            JsonObject children = new JsonObject();
+            for (CommandNode<S> child : node.getChildren()) {
+                children.add(child.getName(), serializeNode(dispatcher, child));
+            }
+            json.add("children", children);
+        }
+
+        return json;
     }
 
     private static Path writeTree(String label, JsonElement tree) throws IOException {

@@ -25,6 +25,14 @@ Running this writes a pretty-printed JSON dump of the full command tree to:
 On success, CmdTree reports the full file path in chat. On failure, it reports a short
 error in chat and logs the full stack trace to the game log.
 
+Vanilla's own tree-to-JSON serializer will throw if it encounters a Brigadier argument
+type it doesn't recognize - which happens with some other mods' client-only commands
+(e.g. the `dev.xpple.clientarguments` library used by several QoL mods), since those
+argument types are never meant to be sent over the network and so are never registered
+with vanilla's `ArgumentTypeInfos`. CmdTree catches this per-node and falls back to a
+reduced description (just the node's name and its argument type's class) for the
+specific node that can't be fully described, instead of losing the rest of the tree.
+
 ## Installation
 
 1. Install [Fabric Loader](https://fabricmc.net/use/) for one of the supported
