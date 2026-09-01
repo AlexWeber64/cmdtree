@@ -35,7 +35,7 @@ error in chat and logs the full stack trace to the game log.
 
 ## Supported Minecraft versions
 
-All seven versions below were actually test-compiled against the real Fabric Loader,
+All eight versions below were actually test-compiled against the real Fabric Loader,
 Fabric API, and Minecraft dependencies for that version (not just declared) - see
 [Notes on version support](#notes-on-version-support) below for how.
 
@@ -47,10 +47,14 @@ Fabric API, and Minecraft dependencies for that version (not just declared) - se
 | 1.21.4    | 0.19.3         | 0.119.4+1.21.4   | Mojang official mappings  |
 | 1.21.8    | 0.19.3         | 0.136.1+1.21.8   | Mojang official mappings  |
 | 1.21.11   | 0.19.3         | 0.141.6+1.21.11  | Mojang official mappings  |
+| 26.1.2    | 0.19.3         | 0.155.2+26.1.2   | none needed (unobfuscated) |
 | 26.2      | 0.19.3         | 0.158.0+26.2     | none needed (unobfuscated) |
 
 No candidate versions were dropped - every version originally targeted (spanning
-1.20.x, several 1.21.x points, and the current 26.x line) built successfully.
+1.20.x, several 1.21.x points, and the current 26.x line) built successfully. 26.1.2
+was added after the fact since it's a distinct release from 26.2 in the same 26.x
+line - each `26.x.y` build is declared and compiled separately, it isn't covered by
+a version range the way `1.20.4` or `1.21.1` are.
 
 ### Notes on version support
 
