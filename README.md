@@ -26,7 +26,7 @@ On success, CmdTree reports the full file path in chat. On failure, it reports a
 error in chat and logs the full stack trace to the game log.
 
 Vanilla's own tree-to-JSON serializer will throw if it encounters a Brigadier argument
-type it doesn't recognize - which happens with some other mods' client-only commands
+type it doesn't recognize, which happens with some other mods' client-only commands
 (e.g. the `dev.xpple.clientarguments` library used by several QoL mods), since those
 argument types are never meant to be sent over the network and so are never registered
 with vanilla's `ArgumentTypeInfos`. CmdTree catches this per-node and falls back to a
@@ -44,7 +44,7 @@ specific node that can't be fully described, instead of losing the rest of the t
 ## Supported Minecraft versions
 
 All eight versions below were actually test-compiled against the real Fabric Loader,
-Fabric API, and Minecraft dependencies for that version (not just declared) - see
+Fabric API, and Minecraft dependencies for that version (not just declared); see
 [Notes on version support](#notes-on-version-support) below for how.
 
 | Minecraft | Fabric Loader | Fabric API      | Mappings                  |
@@ -58,21 +58,21 @@ Fabric API, and Minecraft dependencies for that version (not just declared) - se
 | 26.1.2    | 0.19.3         | 0.155.2+26.1.2   | none needed (unobfuscated) |
 | 26.2      | 0.19.3         | 0.158.0+26.2     | none needed (unobfuscated) |
 
-No candidate versions were dropped - every version originally targeted (spanning
+No candidate versions were dropped: every version originally targeted (spanning
 1.20.x, several 1.21.x points, and the current 26.x line) built successfully. 26.1.2
 was added after the fact since it's a distinct release from 26.2 in the same 26.x
-line - each `26.x.y` build is declared and compiled separately, it isn't covered by
+line. Each `26.x.y` build is declared and compiled separately; it isn't covered by
 a version range the way `1.20.4` or `1.21.1` are.
 
 ### Notes on version support
 
 - This project builds against **Mojang's official mappings** for every version, not
-  Yarn - including versions before 1.21.11, which are technically obfuscated. Loom can
+  Yarn, including versions before 1.21.11, which are technically obfuscated. Loom can
   remap an obfuscated jar using Mojang's own official mappings just as well as Yarn's,
   and doing so meant the mod code below didn't need any version-specific handling for
   the vast majority of the Minecraft API surface it touches (`Minecraft`,
   `ClientPacketListener`, `ArgumentUtils`, `Component`, `ServerData`, `IntegratedServer`,
-  `WorldData` - all identical names and signatures from 1.20.1 straight through 26.2).
+  `WorldData`: all identical names and signatures from 1.20.1 straight through 26.2).
 - **Minecraft 26.1 was the first release Mojang shipped unobfuscated.** Fabric
   discontinued Yarn and Intermediary mappings from 26.1 onward, so any project still
   targeting Yarn mappings cannot support 26.x at all. Building against official mappings
@@ -83,10 +83,10 @@ a version range the way `1.20.4` or `1.21.1` are.
   `ClientCommands` starting with the Fabric API build for Minecraft 26.1 (part of a
   broader Fabric API renaming pass to match Mojang's official terminology now that it's
   public). The two versions of that class have identical static method signatures, so a
-  single Stonecutter-swapped `import static` line is the entire fix - see
+  single Stonecutter-swapped `import static` line is the entire fix; see
   `GetCommandsCommand.java`.
 - 1.21.8 only ever had a single Yarn mappings build published upstream (`+build.1`)
-  before Fabric moved past it - irrelevant here since we don't depend on Yarn, but
+  before Fabric moved past it. That's irrelevant here since we don't depend on Yarn, but
   worth knowing if you go looking for Yarn mappings for that version.
 
 ## Building from source
@@ -109,4 +109,4 @@ IDE, switch the active version first:
 
 ## License
 
-MIT - see [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE).
