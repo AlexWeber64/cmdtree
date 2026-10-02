@@ -109,6 +109,14 @@ IDE, switch the active version first:
 ./gradlew "Set active project to 1.21.11"
 ```
 
+## Releasing
+
+Set `mod.version` in `stonecutter.properties.toml`, merge it to `master`, then tag that
+commit with `v` plus the version and push the tag (`git tag v1.0.1 && git push origin v1.0.1`).
+The tag pipeline builds every supported version, uploads each jar to the project's package
+registry, and publishes a GitLab release that links to all of them, with the commits since
+the previous tag as its notes. If the tag doesn't match `mod.version`, nothing is published.
+
 ## License
 
 MIT. See [LICENSE](LICENSE).
