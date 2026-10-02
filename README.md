@@ -1,5 +1,7 @@
 # CmdTree
 
+[![pipeline status](https://gitlab.com/AlexWeber64/CmdTree/badges/master/pipeline.svg)](https://gitlab.com/AlexWeber64/CmdTree/-/pipelines)
+
 A small Fabric client mod that dumps the command tree you can actually see (the
 Brigadier command tree the server sent your client, already filtered down to whatever
 you're permitted to run) to a JSON file on disk. Works identically in singleplayer
