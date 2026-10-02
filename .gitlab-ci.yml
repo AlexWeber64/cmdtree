@@ -1,0 +1,31 @@
+# Builds every supported Minecraft version on every merge request and every
+# push to master, and keeps the jars as a downloadable artifact.
+
+# Run for merge requests and the default branch, without a duplicate
+# branch pipeline for every push to an open merge request.
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+build:
+  # Gradle runs on JDK 21. The foojay resolver (settings.gradle.kts)
+  # downloads the other JDKs that individual Minecraft versions compile
+  # against, such as 17 for 1.20.x and 25 for 26.x.
+  image: eclipse-temurin:21-jdk
+  variables:
+    GRADLE_USER_HOME: "$CI_PROJECT_DIR/.gradle-home"
+  cache:
+    key:
+      files: [stonecutter.properties.toml, gradle/wrapper/gradle-wrapper.properties]
+    # Dependencies, the wrapper, and the downloaded JDKs. Loom's per-version
+    # Minecraft cache is left out because it is several GB across 8 versions.
+    paths: [.gradle-home/caches/modules-2/, .gradle-home/wrapper/, .gradle-home/jdks/]
+  script:
+    - ./gradlew buildAndCollect --no-daemon --stacktrace
+  artifacts:
+    name: "cmdtree-$CI_COMMIT_SHORT_SHA"
+    paths: [build/libs/*/*.jar]
+    expire_in: 30 days
